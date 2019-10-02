@@ -14,12 +14,14 @@ const endpoint = {url:testMe};
 setInterval (()=> {
 // setTimeout (()=> {
   console.log(++count);
-  basicGet (endpoint, res=> {
+  basicGet (endpoint, async res=> {
     if (res.status!== 200){
-      console.log(res);
-      console.log(res.body);
-      console.log(res.json());
-      console.log(res.text());
+      // console.log(res);
+      // console.log(res.body);
+      const json = await res.json()
+      // const text = await res.text()
+      console.log(json);
+      console.log(text);
     }
   });
 }, 45000)
