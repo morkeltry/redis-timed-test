@@ -1,3 +1,6 @@
+// make serialised responses unique so that we are able to use sorted sets in redis.
+let totalResponses = 0;
+
 const serialiseJsonResponse = async response =>  {
   let result = ``;
   result += response.status;
@@ -13,7 +16,7 @@ const serialiseJsonResponse = async response =>  {
     : 'DOWN: '+result ;
 
   console.log(result)
-  return result;
+  return result+(++totalResponses);
 }
 
 const serialiseTextResponse = async response =>  {
@@ -42,13 +45,14 @@ const serialiseTextResponse = async response =>  {
     : 'DOWN: '+result ;
 
   console.log(result)
-  return result;
+  return result+(++totalResponses);
 }
 
 module.exports = [
   {
     url : "https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/email-service/health",
-    serialise : serialiseJsonResponse
+    serialise : serialiseJsonResponse,
+    name : 'email-service'
     // Will always report as being up
     // Requires a GET request
     // Returns HTTP status code 200
@@ -56,7 +60,8 @@ module.exports = [
   },
   {
     url : "https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/payment-gateway/health",
-    serialise : serialiseTextResponse
+    serialise : serialiseTextResponse,
+    name : 'payment-gateway'
     // Will always report as being down
     // Requires a GET request
     // Returns HTTP status code 500
@@ -65,7 +70,8 @@ module.exports = [
   {
     url : "https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/microservice-controller/health",
     options : { method : "post" },
-    serialise : serialiseTextResponse
+    serialise : serialiseTextResponse,
+    name : 'microservice-controller'
     // Will report as being up and down every 5 minutes
     // Requires a POST request
     // Returns HTTP status code 200 or 500
@@ -73,7 +79,8 @@ module.exports = [
   },
   {
     url : "https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/transaction-monitor/health",
-    serialise : serialiseJsonResponse
+    serialise : serialiseJsonResponse,
+    name : 'transaction-monitor'
     // Will report as being up and down every now and again
     // Requires a GET request
     // When the service is UP it will respond with JSON and a 200 status code: {"status": "up"}
