@@ -1,51 +1,55 @@
-// make serialised responses unique so that we are able to use sorted sets in redis.
-let totalResponses = 0;
+// totalResponses serves to make serialised responses unique so that we are able to use sorted sets in redis.
+// There is probably a more elegant solution, but it's a timed test!
+let totalResponses = 0
 
+// return a short summary of the various up/down signifiers from the response, always beginning with   'UP: ' or 'DOWN: '
 const serialiseJsonResponse = async response =>  {
-  let result = ``;
-  result += response.status;
-  result += await response.json().status || '';
+  let result = ``
+  result += response.status
+  result += await response.json().status || ''
 
   if (response.status == 200)
-    up = true;
+    up = true
   if (response.status > 200)
-    up = false;
+    up = false
 
   result = up?
     'UP: '+result
-    : 'DOWN: '+result ;
+    : 'DOWN: '+result
 
-  console.log(result)
-  return result+(++totalResponses);
+  // console.log(`To store: ${result}`)
+  return result+(++totalResponses)
 }
 
-const serialiseTextResponse = async response =>  {
-  let result = ``;
+// NB Could be more liberal with inputs - many conceivable remote reponses could error here.
+const serialiseTextResponse = async response => {
+  let result = ''
   let up;
-  result += response.status;
-  const text = await response.text();
+
+  result += response.status
+  const text = await response.text()
   const statusMsg = text.slice(text.indexOf('status'),text.indexOf('status')+12)
-    .toUpperCase();
-  result += statusMsg || '';
+    .toUpperCase()
+  result += statusMsg || ''
 
   if (response.status == 200)
-    up = true;
+    up = true
   if (response.status > 200)
-    up = false;
+    up = false
 
   if (statusMsg
     && (statusMsg.includes('pass') || statusMsg.includes('up'))
     && (!statusMsg.includes('down') || statusMsg.includes('fail')))
       up = true
         else
-      up = false;
+      up = false
 
   result = up?
     'UP: '+result
-    : 'DOWN: '+result ;
+    : 'DOWN: '+result
 
-  console.log(result)
-  return result+(++totalResponses);
+  // console.log(`To store: ${result}`)
+  return result+(++totalResponses)
 }
 
 module.exports = [

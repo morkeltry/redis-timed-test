@@ -1,4 +1,4 @@
-
+// This file is unnecessary - used only to get sample output from this endpoint.
 const fetch = require('node-fetch');
 
 const testMe = "https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/transaction-monitor/health";
