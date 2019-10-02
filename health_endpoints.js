@@ -38,8 +38,8 @@ const serialiseTextResponse = async response => {
     up = false
 
   if (statusMsg
-    && (statusMsg.includes('pass') || statusMsg.includes('up'))
-    && (!statusMsg.includes('down') || statusMsg.includes('fail')))
+    && (statusMsg.includes('PASS') || statusMsg.includes('UP'))
+    && (!statusMsg.includes('DOWN') || statusMsg.includes('FAIL')))
       up = true
         else
       up = false
