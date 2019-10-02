@@ -21,7 +21,7 @@ setInterval (()=> {
       const json = await res.json()
       // const text = await res.text()
       console.log(json);
-      console.log(text);
+      // console.log(text);
     }
   });
 }, 45000)
