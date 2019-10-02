@@ -1,0 +1,21 @@
+
+    • https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/email-service/health
+        ◦ Will always report as being up
+        ◦ Requires a GET request
+        ◦ Returns HTTP status code 200
+        ◦ Returns JSON with body: {"status": "up"}
+    • https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/payment-gateway/health
+        ◦ Will always report as being down
+        ◦ Requires a GET request
+        ◦ Returns HTTP status code 500
+        ◦ Returns XML with body: <health><status>down</status></health>
+    • https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/microservice-controller/health
+        ◦ Will report as being up and down every 5 minutes
+        ◦ Requires a POST request
+        ◦ Returns HTTP status code 200 or 500
+        ◦ Returns text with body status: pass or status: fail
+    • https://u0e8utqkk2.execute-api.eu-west-2.amazonaws.com/dev/transaction-monitor/health
+        ◦ Will report as being up and down every now and again
+        ◦ Requires a GET request
+        ◦ When the service is UP it will respond with JSON and a 200 status code: {"status": "up"}
+        ◦ When the service is DOWN it will timeout. The message and details are controlled by our hosting provider (AWS or Azure).
