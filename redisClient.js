@@ -11,6 +11,7 @@ const { start } = require('./startRedisServer')
 
 const zadd = promisify(client.zadd).bind(client)
 const zrange = promisify(client.zrange).bind(client)
+const zrevrange = promisify(client.zrevrange).bind(client)
 const zrangebyscore = promisify(client.zrangebyscore).bind(client)
 const del = promisify(client.del).bind(client)
 
@@ -21,22 +22,19 @@ const del = promisify(client.del).bind(client)
 //   })
 
 
-const addResponse = (key, status) =>
+const addResponse = (key, status) => {
   zadd (key, Date.now(), status)
-
-const getTail = async () => {
-
 }
 
-const getRange = async () => {
-
+const getTail= (key, howMany) => {
+  console.log('zrevrange:',key, -howMany, -1, 'withscores')
+  return zrevrange (key, -howMany, -1, 'withscores')
 }
 
-console.log('will attempt ZADD')
-zadd ('ting', 454, 'status')
-  .then (console.log)
-addResponse ('abcde','defgh')
-  .then (console.log)
+const getRange = async (key, start, end) =>
+  zrangebyscore (key, start, end, 'withscores')
 
+const getSince = async (key, start = 0) =>
+  getRange (key, start, Date.now(), 'withscores')
 
-module.exports = { addResponse, getTail, getRange }
+module.exports = { addResponse, getTail, getRange, getSince }

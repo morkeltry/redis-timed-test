@@ -4,8 +4,10 @@ const router = express.Router();
 
 const api = require('./api');
 
-router.get('/api/', api.get);
-router.get('/api/:params', api.get);
+router.get('/:endpoint/recent/', api.recent);
+router.get('/:endpoint/recent/:count', api.recent);
+router.get('/:endpoint/range/:start/:end', api.range);
+router.get('/:endpoint/since/:start', api.since);
 
 
 module.exports = router;
