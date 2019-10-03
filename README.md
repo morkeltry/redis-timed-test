@@ -3,7 +3,7 @@
 This app makes empty requests to an array of endpoints, interprets from the responses whether they are up or down, serialises the info used to make that decision in a short unique string and stores it in a redis store.
 
 ### install
-* Clone the repo , `cd` into its directory and and run `npm i`
+* Clone the repo with `git clone https://github.com/morkeltry/breaking-wave.git`, `cd` into its directory and and run `npm i`
 * Ensure `redis-server` is installed and able to be started at the default URL (`localhost:6379`). See note below
 
 ### run
