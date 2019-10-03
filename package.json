@@ -12,7 +12,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "npm run store & npm run api",
+    "start": "redis-server & npm run api",
+    "start-with-nodeserverstart": "npm run store & npm run api",
     "store": "node check_health.js",
     "api": "node server/index.js"
   },
